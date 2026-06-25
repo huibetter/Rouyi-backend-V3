@@ -13,16 +13,16 @@
 
     <description>
         web服务入口
-    </description>
+    </description>  
 
     <dependencies>
 
         <!-- spring-boot-devtools -->
-        <dependency>
+        <parent>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional> <!-- 表示依赖不会传递 -->
-        </dependency>
+            <artifactId>spring-boot-starter-parent</artifactId>
+            <version>4.0.6</version> <!-- 或最新版本 -->
+        </parent>
 
         <!-- spring-doc -->
         <dependency>
@@ -72,15 +72,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>   
-                <groupId>org.apache.maven.plugins</groupId>   
-                <artifactId>maven-war-plugin</artifactId>   
-                <version>3.1.0</version>   
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>${project.artifactId}</warName>
-                </configuration>   
-           </plugin>   
+                </configuration>
+           </plugin>
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>

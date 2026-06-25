@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BookControlMapper">
+
+    <resultMap type="BookControl" id="BookControlResult">
+        <result property="id"    column="id"    />
+        <result property="isbn"    column="isbn"    />
+        <result property="bookName"    column="book_name"    />
+        <result property="bookAuthor"    column="book_author"    />
+        <result property="bookPrice"    column="book_price"    />
+        <result property="bookNum"    column="book_num"    />
+        <result property="bookStatus"    column="book_status"    />
+    </resultMap>
+
+    <sql id="selectBookControlVo">
+        select id, isbn, book_name, book_author, book_price, book_num, book_status from book_control
+    </sql>
+
+    <select id="selectBookControlList" parameterType="BookControl" resultMap="BookControlResult">
+        <include refid="selectBookControlVo"/>
+        <where>
+            <if test="isbn != null  and isbn != ''"> and isbn = #{isbn}</if>
+            <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
+            <if test="bookAuthor != null  and bookAuthor != ''"> and book_author = #{bookAuthor}</if>
+            <if test="bookPrice != null "> and book_price = #{bookPrice}</if>
+            <if test="bookNum != null "> and book_num = #{bookNum}</if>
+            <if test="bookStatus != null "> and book_status = #{bookStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectBookControlById" parameterType="Long" resultMap="BookControlResult">
+        <include refid="selectBookControlVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBookControl" parameterType="BookControl" useGeneratedKeys="true" keyProperty="id">
+        insert into book_control
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isbn != null and isbn != ''">isbn,</if>
+            <if test="bookName != null and bookName != ''">book_name,</if>
+            <if test="bookAuthor != null and bookAuthor != ''">book_author,</if>
+            <if test="bookPrice != null">book_price,</if>
+            <if test="bookNum != null">book_num,</if>
+            <if test="bookStatus != null">book_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isbn != null and isbn != ''">#{isbn},</if>
+            <if test="bookName != null and bookName != ''">#{bookName},</if>
+            <if test="bookAuthor != null and bookAuthor != ''">#{bookAuthor},</if>
+            <if test="bookPrice != null">#{bookPrice},</if>
+            <if test="bookNum != null">#{bookNum},</if>
+            <if test="bookStatus != null">#{bookStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBookControl" parameterType="BookControl">
+        update book_control
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isbn != null and isbn != ''">isbn = #{isbn},</if>
+            <if test="bookName != null and bookName != ''">book_name = #{bookName},</if>
+            <if test="bookAuthor != null and bookAuthor != ''">book_author = #{bookAuthor},</if>
+            <if test="bookPrice != null">book_price = #{bookPrice},</if>
+            <if test="bookNum != null">book_num = #{bookNum},</if>
+            <if test="bookStatus != null">book_status = #{bookStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBookControlById" parameterType="Long">
+        delete from book_control where id = #{id}
+    </delete>
+
+    <delete id="deleteBookControlByIds" parameterType="String">
+        delete from book_control where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
